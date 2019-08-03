@@ -1,7 +1,6 @@
 package infrastructure
 
 import (
-	"log"
 	"fmt"
 	"github.com/arizard/nine-publishing-technical-test/entities"
 )
