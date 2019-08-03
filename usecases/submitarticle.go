@@ -2,12 +2,13 @@ package usecases
 
 import (
 	"log"
-	// "github.com/arizard/nine-publishing-technical-test/entities"
+	"github.com/arizard/nine-publishing-technical-test/entities"
 )
 
 // SubmitArticle is a use case which performs the submission of an article.
 // Dependencies are injected when the struct is initialized.
 type SubmitArticle struct {
+	ArticleRepository entities.ArticleRepository
 	ArticleData map[string]string
 	Response *ResponseCollector
 }
