@@ -14,11 +14,11 @@ import (
 type JSONPresenter struct {}
 
 // Deserialize converts a string body to a mapping of string to string.
-func (JSONPresenter) Deserialize(body []byte) map[string]string {
-	deserial := map[string]string{}
+func (JSONPresenter) Deserialize(body []byte) map[string]interface{} {
+	deserial := map[string]interface{}{}
 	err := json.Unmarshal([]byte(body), &deserial)
 
-	if err == nil {
+	if err != nil {
 		log.Printf("failed to deserialize: \"%s\"", err)
 	}
 

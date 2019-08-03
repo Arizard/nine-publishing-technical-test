@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/arizard/nine-publishing-technical-test/presenters"
 	"github.com/arizard/nine-publishing-technical-test/handlers"
-	// "github.com/arizard/nine-publishing-technical-test/infrastructure"
+	"github.com/arizard/nine-publishing-technical-test/infrastructure"
 	"net/http"
 	"github.com/gorilla/mux"
 	"log"
@@ -19,6 +19,7 @@ func main() {
 	JSONHandler := handlers.Handler{
 		ContentType: "application/json",
 		Presenter: jsonPresenter,
+		ArticleRepository: infrastructure.NewInMemoryArticleRepository(),
 	}
 
 	r.NotFoundHandler = http.HandlerFunc(JSONHandler.NotFoundHandler)

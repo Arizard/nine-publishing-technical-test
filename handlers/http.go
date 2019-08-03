@@ -5,7 +5,7 @@ import (
 	"log"
 	"github.com/arizard/nine-publishing-technical-test/usecases"
 	"github.com/arizard/nine-publishing-technical-test/presenters"
-	// "github.com/arizard/nine-publishing-technical-test/entities"
+	"github.com/arizard/nine-publishing-technical-test/entities"
 	"github.com/gorilla/mux"
 	"net/http"
 	"fmt"
@@ -19,9 +19,9 @@ import (
 // HTTP request. It is used to decouple the Drivers layer from the
 // Controllers and Presenters.
 type Handler struct {
-	//DocumentRepo entities.DocumentRepository
 	ContentType string
 	Presenter presenters.Presenter
+	ArticleRepository entities.ArticleRepository
 }
 
 // CORSWrapper is used to allow cross-origin requests on a handler by wrapping
@@ -70,6 +70,7 @@ func (handler Handler) SubmitArticleHandler(w http.ResponseWriter, r *http.Reque
 	resp := usecases.ResponseCollector{}
 
 	uc := usecases.SubmitArticle{
+		ArticleRepository: handler.ArticleRepository,
 		ArticleData: parsedBody,
 		Response: &resp,
 	}
