@@ -15,7 +15,9 @@ type SubmitArticle struct {
 }
 
 // Execute is a method to action the use case using the injected dependencies.
-func (uc SubmitArticle) Execute() {
+func (uc SubmitArticle) Execute() {	
+	defer panicHandler(uc.Response)
+	
 	tags := make([]string,0)
 
 	for _, val := range uc.ArticleData["tags"].([]interface{}) {
@@ -35,13 +37,12 @@ func (uc SubmitArticle) Execute() {
 	if addErr != nil {
 		log.Printf("Error during SubmitArticle use case: %s", addErr)
 
-		resp := Response{
-			Body: map[string]string{
-				"error": fmt.Sprintf("%s", addErr),
-			},
+		resp := ResponseError{
+			Name: "ERROR_REPOSITORY_ADD",
+			Description: fmt.Sprintf("%s", addErr),
 		}
 	
-		uc.Response.SetResponse(&resp)
+		uc.Response.SetError(&resp)
 	}
 
 	res, _ := uc.ArticleRepository.Find("","")
@@ -49,11 +50,10 @@ func (uc SubmitArticle) Execute() {
 	log.Printf("use case SubmitArticle executed. %v", res)
 	
 	resp := Response{
-		Body: map[string]string{
+		Body: map[string]interface{}{
 			"test": "Hello World!",
 		},
 	}
 
 	uc.Response.SetResponse(&resp)
-
 }

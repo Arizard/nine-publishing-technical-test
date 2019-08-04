@@ -2,11 +2,11 @@ package entities
 
 // Article is an entity which models the Article
 type Article struct {
-	id string
-	title string
-	date string
-	body string
-	tags []string
+	ID    string   `json:"id,omitempty"`
+	Title string   `json:"title,omitempty"`
+	Date  string   `json:"date,omitempty"`
+	Body  string   `json:"body,omitempty"`
+	Tags  []string `json:"tags,omitempty"`
 }
 
 // NewArticle constructs a new article instance.
@@ -21,12 +21,12 @@ func NewArticle(id string, title string, date string, body string, tags []string
 }
 
 func (a Article) GetID() string {
-	return a.id
+	return a.ID
 }
 
 // ArticleRepository implements the repository model for Article
 type ArticleRepository interface {
 	Add(Article) error
-	Get(Article) (Article, error)
+	Get(string) (Article, error)
 	Find(date string, tagName string) ([]Article, error)
 }

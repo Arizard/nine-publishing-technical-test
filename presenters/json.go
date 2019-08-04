@@ -1,8 +1,7 @@
 package presenters
 
 import (
-	// "github.com/arizard/nine-publishing-technical-test/entities"
-	// "fmt"
+	"github.com/arizard/nine-publishing-technical-test/entities"
 	"log"
 	"encoding/json"
 )
@@ -27,35 +26,39 @@ func (JSONPresenter) Deserialize(body []byte) map[string]interface{} {
 
 // NotFound presents the 404 output.
 func (JSONPresenter) NotFound() string {
-	return "{ message: \"Not Found\" }"
+	return "{ \"error\": \"Not Found\" }"
 }
 
 
 // Forbidden presents the 403 output.
 func (JSONPresenter) Forbidden() string {
-	return "{ message: \"Forbidden\" }"
+	return "{ \"error\": \"Forbidden\" }"
 }
 
 // InternalServerError displays the 500 output.
 func (JSONPresenter) InternalServerError() string {
-	return "{ message: \"Internal Server Error.\" }"
-}
-
-// Index displays the index output.
-func (JSONPresenter) Index() string {
-	return "{ message: \"Index\" }"
+	return "{ \"error\": \"Internal Server Error.\" }"
 }
 
 // SubmitArticle is a presenter which renders the input arguments as a JSON
 // string.
 func (JSONPresenter) SubmitArticle() string {
-	return "SubmitArticle"
+	return "{ \"success\": \"Article submitted.\"}"
 }
 
 // GetArticle is a presenter which renders the input arguments as a JSON
 // string.
-func (JSONPresenter) GetArticle() string {
-	return "GetArticle"
+func (JSONPresenter) GetArticle(article entities.Article) string {
+	mapping, err := json.Marshal(article)
+
+	if err != nil {
+		log.Printf("error serializing article: %s", err)
+		return ""
+	}
+
+	log.Printf("presenter %s", mapping)
+
+	return string(mapping)
 }
 
 // GetArticleByTag is a presenter which renders the input arguments as a JSON

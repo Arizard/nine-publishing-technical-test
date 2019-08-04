@@ -35,8 +35,14 @@ func (s InMemoryArticleRepository) Add(article entities.Article) error {
 
 // Get retrieves an existing article from the repository.
 // If the article does not exist, it returns an error.
-func (s InMemoryArticleRepository) Get(article entities.Article) (entities.Article, error) {
-	return entities.Article{}, nil
+func (s InMemoryArticleRepository) Get(id string) (entities.Article, error) {
+	for _, val := range s.articles {
+		if (val.GetID() == id) == true {
+			return val, nil
+		}
+	}
+
+	return entities.Article{}, fmt.Errorf("article not found with id %s", id)
 }
 
 // Find matches the arguments against the elements in the repository.

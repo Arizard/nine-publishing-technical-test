@@ -21,7 +21,7 @@ type ResponseError struct {
 // Response contains a string mapping Body which contains some output data which is
 // only exists on successful execution of the use case.
 type Response struct {
-	Body map[string]string
+	Body map[string]interface{}
 }
 
 // ResponseCollector is the object which the use case calls to in order to set
@@ -41,4 +41,14 @@ func (rc *ResponseCollector) SetResponse(resp *Response) {
 func (rc *ResponseCollector) SetError(err *ResponseError) {
 	rc.Response = nil
 	rc.Error = err
+}
+
+func panicHandler(response *ResponseCollector) {
+	if err := recover(); err != nil {
+		respErr := ResponseError{
+			Name: "SEVERE_FAILURE",
+			Description: "Panic occured.",
+		}
+		response.SetError(&respErr)
+	}
 }

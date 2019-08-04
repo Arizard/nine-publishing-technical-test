@@ -77,18 +77,42 @@ func (handler Handler) SubmitArticleHandler(w http.ResponseWriter, r *http.Reque
 
 	uc.Execute()
 	
-	log.Printf("response collector received %s", resp.Response.Body)
+	log.Printf("response collector received %s", resp.Response)
+
+	if resp.Error != nil {
+		log.Printf("response error %s (%s)", resp.Error.Name, resp.Error.Description)
+		handler.InternalServerErrorHandler(w, r)
+		return
+	}
 
 	fmt.Fprint(w, handler.Presenter.SubmitArticle())
 }
 
 // GetArticleHandler handles the GET request to retrieve an article.
 func (handler Handler) GetArticleHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(501) // Not implemented
 	
 	id := mux.Vars(r)["id"]
 
+	resp := usecases.ResponseCollector{}
+
+	uc := usecases.GetArticle{
+		ArticleRepository: handler.ArticleRepository,
+		ArticleID: id,
+		Response: &resp,
+	}
+
+	uc.Execute()
+	
 	log.Printf("handler GetArticleHandler var id: %s", id)
+	log.Printf("response collector received %s", resp.Response)
+
+	if resp.Error != nil {
+		log.Printf("response error %s (%s)", resp.Error.Name, resp.Error.Description)
+		handler.NotFoundHandler(w, r)
+		return
+	}
+
+	fmt.Fprintf(w, handler.Presenter.GetArticle(resp.Response.Body["article"].(entities.Article)))	
 }
 
 // GetArticleByTagHandler handles the GET request for retrieving articles with 
