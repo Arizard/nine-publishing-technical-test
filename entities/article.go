@@ -28,6 +28,10 @@ func (a Article) GetDate() string {
 	return a.Date
 }
 
+func (a Article) GetTags() []string {
+	return a.Tags
+}
+
 // HasTag returns true when the Tags property contains the tagName argument.
 func (a Article) HasTag(tagName string) bool {
 	for _, t := range a.Tags {

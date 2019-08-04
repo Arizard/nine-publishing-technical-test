@@ -147,5 +147,5 @@ func (handler Handler) GetArticlesByTagHandler(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	fmt.Fprintf(w, handler.Presenter.GetArticlesByTag(resp.Response.Body["articles"].([]entities.Article)))
+	fmt.Fprintf(w, handler.Presenter.GetArticlesByTag(tagName, resp.Response.Body["articles"].([]entities.Article)))
 }

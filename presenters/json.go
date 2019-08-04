@@ -83,8 +83,33 @@ func (JSONPresenter) GetArticle(article entities.Article) string {
 
 // GetArticlesByTag is a presenter which renders the input arguments as a JSON
 // string.
-func (JSONPresenter) GetArticlesByTag(articles []entities.Article) string {
-	json, err := json.Marshal(articles)
+func (JSONPresenter) GetArticlesByTag(tagName string, articles []entities.Article) string {
+	
+	ids, relatedTags := []string{}, []string{}
+
+	tagSet := map[string]bool{}
+
+	for _, a := range articles {
+		ids = append(ids, a.GetID())
+		for _, tag := range a.GetTags() {
+			tagSet[tag] = true
+		}
+	}
+
+	for tag := range tagSet {
+		if tag != tagName {
+			relatedTags = append(relatedTags, tag)
+		}
+	}
+
+	formatted := map[string]interface{}{
+		"tag": tagName,
+		"count": len(articles),
+		"articles": ids,
+		"related_tags": relatedTags,
+	}
+
+	json, err := json.Marshal(formatted)
 
 	if err != nil {
 		log.Printf("error serializing articles: %s", err)

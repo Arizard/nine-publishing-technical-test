@@ -14,5 +14,5 @@ type Presenter interface {
 	Forbidden() string
 	SubmitArticle(map[string]interface{}) string
 	GetArticle(entities.Article) string
-	GetArticlesByTag([]entities.Article) string
+	GetArticlesByTag(string, []entities.Article) string
 }
