@@ -17,7 +17,7 @@ type SubmitArticle struct {
 // Execute is a method to action the use case using the injected dependencies.
 func (uc SubmitArticle) Execute() {	
 	defer panicHandler(uc.Response)
-	
+
 	tags := make([]string,0)
 
 	for _, val := range uc.ArticleData["tags"].([]interface{}) {
@@ -51,7 +51,7 @@ func (uc SubmitArticle) Execute() {
 	
 	resp := Response{
 		Body: map[string]interface{}{
-			"test": "Hello World!",
+			"success": "Submitted Article",
 		},
 	}
 

@@ -42,28 +42,42 @@ func (JSONPresenter) InternalServerError() string {
 
 // SubmitArticle is a presenter which renders the input arguments as a JSON
 // string.
-func (JSONPresenter) SubmitArticle() string {
-	return "{ \"success\": \"Article submitted.\"}"
+func (JSONPresenter) SubmitArticle(info map[string]interface{}) string {
+	json, err := json.Marshal(info)
+
+	if err != nil {
+		log.Printf("error serializing info: %s", err)
+		return ""
+	}
+
+	return string(json)
 }
 
 // GetArticle is a presenter which renders the input arguments as a JSON
 // string.
 func (JSONPresenter) GetArticle(article entities.Article) string {
-	mapping, err := json.Marshal(article)
+	json, err := json.Marshal(article)
 
 	if err != nil {
 		log.Printf("error serializing article: %s", err)
 		return ""
 	}
 
-	log.Printf("presenter %s", mapping)
-
-	return string(mapping)
+	return string(json)
 }
 
-// GetArticleByTag is a presenter which renders the input arguments as a JSON
+// GetArticlesByTag is a presenter which renders the input arguments as a JSON
 // string.
-func (JSONPresenter) GetArticleByTag() string {
-	return "GetArticleByTags"
+func (JSONPresenter) GetArticlesByTag(articles []entities.Article) string {
+	json, err := json.Marshal(articles)
+
+	if err != nil {
+		log.Printf("error serializing articles: %s", err)
+		return ""
+	}
+
+	log.Printf("presenter %s", json)
+
+	return string(json)
 }
 

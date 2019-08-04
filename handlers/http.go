@@ -85,7 +85,7 @@ func (handler Handler) SubmitArticleHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	fmt.Fprint(w, handler.Presenter.SubmitArticle())
+	fmt.Fprint(w, handler.Presenter.SubmitArticle(resp.Response.Body))
 }
 
 // GetArticleHandler handles the GET request to retrieve an article.
@@ -115,13 +115,31 @@ func (handler Handler) GetArticleHandler(w http.ResponseWriter, r *http.Request)
 	fmt.Fprintf(w, handler.Presenter.GetArticle(resp.Response.Body["article"].(entities.Article)))	
 }
 
-// GetArticleByTagHandler handles the GET request for retrieving articles with 
+// GetArticlesByTagHandler handles the GET request for retrieving articles with 
 // the tagName and date parameter.
-func (handler Handler) GetArticleByTagHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(501) // Not implemented
-
+func (handler Handler) GetArticlesByTagHandler(w http.ResponseWriter, r *http.Request) {
+	
 	tagName := mux.Vars(r)["tagName"]
 	date := mux.Vars(r)["date"]
 
-	log.Printf("handler GetArticleHandler var tagName: %s, date: %s", tagName, date)
+	resp := usecases.ResponseCollector{}
+
+	uc := usecases.GetArticlesByTag{
+		ArticleRepository: handler.ArticleRepository,
+		TagName: tagName,
+		Date: date,
+		Response: &resp,
+	}
+
+	uc.Execute()
+
+	log.Printf("handler GetArticlesByTagHandler var tagName: %s, date: %s", tagName, date)
+
+	if resp.Error != nil {
+		log.Printf("response error %s (%s)", resp.Error.Name, resp.Error.Description)
+		handler.InternalServerErrorHandler(w, r)
+		return
+	}
+
+	fmt.Fprintf(w, handler.Presenter.GetArticlesByTag(resp.Response.Body["articles"].([]entities.Article)))
 }

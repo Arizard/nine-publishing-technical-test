@@ -26,7 +26,7 @@ func main() {
 
 	r.HandleFunc("/articles", JSONHandler.CORSWrapper(JSONHandler.SubmitArticleHandler)).Methods("POST", "OPTIONS")
 	r.HandleFunc("/article/{id}", JSONHandler.CORSWrapper(JSONHandler.GetArticleHandler)).Methods("GET", "OPTIONS")
-	r.HandleFunc("/tag/{tagName}/{date}", JSONHandler.CORSWrapper(JSONHandler.GetArticleByTagHandler)).Methods("GET", "OPTIONS")
+	r.HandleFunc("/tag/{tagName}/{date}", JSONHandler.CORSWrapper(JSONHandler.GetArticlesByTagHandler)).Methods("GET", "OPTIONS")
 
 	log.Printf("starting server")
 

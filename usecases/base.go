@@ -1,7 +1,7 @@
 package usecases
 
 import (
-
+	"fmt"
 )
 
 // UseCase is an interface which standardises the methods available on
@@ -47,7 +47,7 @@ func panicHandler(response *ResponseCollector) {
 	if err := recover(); err != nil {
 		respErr := ResponseError{
 			Name: "SEVERE_FAILURE",
-			Description: "Panic occured.",
+			Description: fmt.Sprintf("%s", err),
 		}
 		response.SetError(&respErr)
 	}

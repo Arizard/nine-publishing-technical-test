@@ -10,7 +10,7 @@ type Presenter interface {
 	NotFound() string
 	InternalServerError() string
 	Forbidden() string
-	SubmitArticle() string
+	SubmitArticle(map[string]interface{}) string
 	GetArticle(entities.Article) string
-	GetArticleByTag() string
+	GetArticlesByTag([]entities.Article) string
 }

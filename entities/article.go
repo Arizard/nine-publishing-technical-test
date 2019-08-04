@@ -24,6 +24,20 @@ func (a Article) GetID() string {
 	return a.ID
 }
 
+func (a Article) GetDate() string {
+	return a.Date
+}
+
+// HasTag returns true when the Tags property contains the tagName argument.
+func (a Article) HasTag(tagName string) bool {
+	for _, t := range a.Tags {
+		if t == tagName {
+			return true
+		}
+	}
+	return false
+}
+
 // ArticleRepository implements the repository model for Article
 type ArticleRepository interface {
 	Add(Article) error
