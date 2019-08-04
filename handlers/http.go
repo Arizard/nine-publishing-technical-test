@@ -59,6 +59,12 @@ func (handler Handler) InternalServerErrorHandler(w http.ResponseWriter, r *http
 	fmt.Fprintf(w, handler.Presenter.InternalServerError())
 }
 
+// BadRequestHandler handles 400s
+func (handler Handler) BadRequestHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(400)
+	fmt.Fprintf(w, handler.Presenter.BadRequest())
+}
+
 // SubmitArticleHandler handles the POST request to submit an article.
 func (handler Handler) SubmitArticleHandler(w http.ResponseWriter, r *http.Request) {
 	body, _ := ioutil.ReadAll(r.Body)
@@ -81,7 +87,7 @@ func (handler Handler) SubmitArticleHandler(w http.ResponseWriter, r *http.Reque
 
 	if resp.Error != nil {
 		log.Printf("response error %s (%s)", resp.Error.Name, resp.Error.Description)
-		handler.InternalServerErrorHandler(w, r)
+		handler.BadRequestHandler(w, r)
 		return
 	}
 
@@ -137,7 +143,7 @@ func (handler Handler) GetArticlesByTagHandler(w http.ResponseWriter, r *http.Re
 
 	if resp.Error != nil {
 		log.Printf("response error %s (%s)", resp.Error.Name, resp.Error.Description)
-		handler.InternalServerErrorHandler(w, r)
+		handler.BadRequestHandler(w, r)
 		return
 	}
 

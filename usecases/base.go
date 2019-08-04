@@ -14,8 +14,8 @@ type UseCase interface {
 // ResponseError contains the Name (e.g. ARTICLE_NOT_FOUND) and Description (e.g. 
 // "The article could not be found in the repository.")
 type ResponseError struct {
-	Name string
-	Description string
+	Name        string `json:"name,omitempty"`
+	Description string `json:"description,omitempty"`
 }
 
 // Response contains a string mapping Body which contains some output data which is

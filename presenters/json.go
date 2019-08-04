@@ -24,9 +24,24 @@ func (JSONPresenter) Deserialize(body []byte) map[string]interface{} {
 	return deserial
 }
 
+// Serialize converts an interface to JSON bytes
+func (JSONPresenter) Serialize(object interface{}) []byte {
+	serial, err := json.Marshal(object)
+
+	if err != nil {
+		log.Printf("failed to serialize: \"%s\"", err)
+	}
+
+	return serial
+}
+
 // NotFound presents the 404 output.
 func (JSONPresenter) NotFound() string {
 	return "{ \"error\": \"Not Found\" }"
+}
+
+func (JSONPresenter) BadRequest() string {
+	return "{ \"error\": \"Bad Request\" }"
 }
 
 
