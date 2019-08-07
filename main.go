@@ -25,7 +25,7 @@ func main() {
 	r.NotFoundHandler = http.HandlerFunc(JSONHandler.NotFoundHandler)
 
 	r.HandleFunc("/articles", JSONHandler.CORSWrapper(JSONHandler.SubmitArticleHandler)).Methods("POST", "OPTIONS")
-	r.HandleFunc("/article/{id}", JSONHandler.CORSWrapper(JSONHandler.GetArticleHandler)).Methods("GET", "OPTIONS")
+	r.HandleFunc("/articles/{id}", JSONHandler.CORSWrapper(JSONHandler.GetArticleHandler)).Methods("GET", "OPTIONS")
 	r.HandleFunc("/tag/{tagName}/{date}", JSONHandler.CORSWrapper(JSONHandler.GetArticlesByTagHandler)).Methods("GET", "OPTIONS")
 
 	log.Printf("starting server")
