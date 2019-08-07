@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"time"
 	"io/ioutil"
 	"log"
 	"github.com/arizard/nine-publishing-technical-test/usecases"
@@ -127,6 +128,17 @@ func (handler Handler) GetArticlesByTagHandler(w http.ResponseWriter, r *http.Re
 	
 	tagName := mux.Vars(r)["tagName"]
 	date := mux.Vars(r)["date"]
+
+	dateFormat := "20060102"
+	newDate, dateErr := time.Parse(dateFormat, date)
+
+	if dateErr != nil {
+		log.Printf("date error: %s", dateErr)
+		handler.BadRequestHandler(w, r)
+		return
+	}
+
+	date = newDate.Format("2006-01-02")
 
 	resp := usecases.ResponseCollector{}
 

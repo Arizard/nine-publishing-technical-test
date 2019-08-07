@@ -1,16 +1,15 @@
 package usecases
 
 import (
+	"github.com/arizard/nine-publishing-technical-test/infrastructure"
 	"github.com/icrowley/fake"
 	"fmt"
-	"github.com/arizard/nine-publishing-technical-test/infrastructure"
-	
 	"testing"
 
 	"github.com/arizard/nine-publishing-technical-test/entities"
 )
 
-func TestSubmitArticle_Execute(t *testing.T) {
+func TestGetArticle_Execute(t *testing.T) {
 	type fields struct {
 		ArticleRepository entities.ArticleRepository
 		ArticleData       map[string]interface{}
@@ -62,6 +61,30 @@ func TestSubmitArticle_Execute(t *testing.T) {
 						uc.Response.Error.Name,
 						uc.Response.Error.Description,
 					),
+				)
+			}
+
+			uc2 := GetArticle{
+				ArticleRepository: tt.fields.ArticleRepository,
+				ArticleID: tt.fields.ArticleData["id"].(string),
+				Response: &(ResponseCollector{}),
+			}
+			uc2.Execute()
+
+			if uc2.Response.Error != nil {
+				t.Error(
+					fmt.Sprintf("error occured in test: %s (%s)",
+						uc.Response.Error.Name,
+						uc.Response.Error.Description,
+					),
+				)
+			}
+
+			output := uc2.Response.Response.Body
+
+			if output["article"].(entities.Article).ID != tt.fields.ArticleData["id"].(string) {
+				t.Error(
+					fmt.Sprintf("error occured in test: mismatched ID returned"),
 				)
 			}
 			
