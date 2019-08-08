@@ -104,7 +104,7 @@ func (JSONPresenter) GetArticlesByTag(tagName string, articles []entities.Articl
 	formatted := map[string]interface{}{
 		"tag":          tagName,
 		"count":        len(articles),
-		"articles":     ids,
+		"articles":     ids[:10],
 		"related_tags": relatedTags,
 	}
 
