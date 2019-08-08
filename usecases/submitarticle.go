@@ -45,9 +45,7 @@ func (uc SubmitArticle) Execute() {
 		uc.Response.SetError(&resp)
 	}
 
-	res, _ := uc.ArticleRepository.Find("", "")
-
-	log.Printf("use case SubmitArticle executed. %v", res)
+	log.Printf("use case SubmitArticle executed.")
 
 	resp := Response{
 		Body: map[string]interface{}{

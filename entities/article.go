@@ -20,14 +20,17 @@ func NewArticle(id string, title string, date string, body string, tags []string
 	}
 }
 
+// GetID returns the article ID.
 func (a Article) GetID() string {
 	return a.ID
 }
 
+// GetDate returns the article date.
 func (a Article) GetDate() string {
 	return a.Date
 }
 
+// GetTags returns the article tags.
 func (a Article) GetTags() []string {
 	return a.Tags
 }
@@ -46,5 +49,5 @@ func (a Article) HasTag(tagName string) bool {
 type ArticleRepository interface {
 	Add(Article) error
 	Get(string) (Article, error)
-	Find(date string, tagName string) ([]Article, error)
+	Find(date string, tagName string, limit int) ([]Article, error)
 }

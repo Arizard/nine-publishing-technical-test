@@ -19,7 +19,7 @@ type GetArticlesByTag struct {
 func (uc GetArticlesByTag) Execute() {
 	defer panicHandler(uc.Response)
 
-	res, err := uc.ArticleRepository.Find(uc.TagName, uc.Date)
+	res, err := uc.ArticleRepository.Find(uc.TagName, uc.Date, 10)
 
 	if err != nil {
 		resp := ResponseError{

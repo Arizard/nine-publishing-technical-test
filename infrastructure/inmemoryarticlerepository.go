@@ -47,10 +47,13 @@ func (s InMemoryArticleRepository) Get(id string) (entities.Article, error) {
 
 // Find matches the arguments against the elements in the repository.
 // It always returns a slice of entities.Article
-func (s InMemoryArticleRepository) Find(tagName string, date string) ([]entities.Article, error) {
+func (s InMemoryArticleRepository) Find(tagName string, date string, limit int) ([]entities.Article, error) {
 	results := make([]entities.Article, 0)
 
 	for _, val := range s.articles {
+		if len(results) >= limit && limit > 0 {
+			break
+		}
 		if val.HasTag(tagName) {
 			if val.GetDate() == date {
 				results = append(results, val)
