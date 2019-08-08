@@ -40,6 +40,7 @@ func (JSONPresenter) NotFound() string {
 	return "{ \"error\": \"Not Found\" }"
 }
 
+// BadRequest presents the 400 output.
 func (JSONPresenter) BadRequest() string {
 	return "{ \"error\": \"Bad Request\" }"
 }
