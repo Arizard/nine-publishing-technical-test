@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/arizard/nine-publishing-technical-test/entities"
 	"log"
+	"time"
 )
 
 // SubmitArticle is a use case which performs the submission of an article.
@@ -30,6 +31,7 @@ func (uc SubmitArticle) Execute() {
 		uc.ArticleData["date"].(string),
 		uc.ArticleData["body"].(string),
 		tags,
+		time.Now().UTC(),
 	)
 
 	addErr := uc.ArticleRepository.Add(newArticle)

@@ -3,6 +3,7 @@ package infrastructure
 import (
 	"fmt"
 	"github.com/arizard/nine-publishing-technical-test/entities"
+	"sort"
 )
 
 // InMemoryArticleRepository implements a concrete repository model which
@@ -51,14 +52,27 @@ func (s InMemoryArticleRepository) Find(tagName string, date string, limit int) 
 	results := make([]entities.Article, 0)
 
 	for _, val := range s.articles {
-		if len(results) >= limit && limit > 0 {
-			break
-		}
 		if val.HasTag(tagName) {
 			if val.GetDate() == date {
 				results = append(results, val)
 			}
 		}
+	}
+	
+	// Don't sort unless it's more than 1 result.
+	if len(results) <= 1 {
+		return results, nil
+	}
+
+	sort.Slice(
+		results,
+		func(i, j int) bool {
+			return results[i].Timestamp.UnixNano() > results[j].Timestamp.UnixNano()
+		},
+	)
+
+	if limit > 0 {
+		return results[:(limit)], nil
 	}
 
 	return results, nil

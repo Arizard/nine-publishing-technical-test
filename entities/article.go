@@ -1,5 +1,7 @@
 package entities
 
+import "time"
+
 // Article is an entity which models the Article
 type Article struct {
 	ID    string   `json:"id,omitempty"`
@@ -7,16 +9,18 @@ type Article struct {
 	Date  string   `json:"date,omitempty"`
 	Body  string   `json:"body,omitempty"`
 	Tags  []string `json:"tags,omitempty"`
+	Timestamp time.Time `json:"-"`
 }
 
 // NewArticle constructs a new article instance.
-func NewArticle(id string, title string, date string, body string, tags []string) Article {
+func NewArticle(id string, title string, date string, body string, tags []string, ts time.Time) Article {
 	return Article{
 		id,
 		title,
 		date,
 		body,
 		tags,
+		ts,
 	}
 }
 
@@ -49,5 +53,9 @@ func (a Article) HasTag(tagName string) bool {
 type ArticleRepository interface {
 	Add(Article) error
 	Get(string) (Article, error)
+
+	// Find always returns Articles sorted in reverse chronological order
+	// of addition to the repository.
+	// A limit of 0 means there is no limit applied.
 	Find(date string, tagName string, limit int) ([]Article, error)
 }
