@@ -11,7 +11,7 @@ type UseCase interface {
 	Execute()
 }
 
-// ResponseError contains the Name (e.g. ARTICLE_NOT_FOUND) and Description (e.g. 
+// ResponseError contains the Name (e.g. ARTICLE_NOT_FOUND) and Description (e.g.
 // "The article could not be found in the repository.")
 type ResponseError struct {
 	Name        string `json:"name,omitempty"`
@@ -28,7 +28,7 @@ type Response struct {
 // the response or error.
 type ResponseCollector struct {
 	Response *Response
-	Error *ResponseError
+	Error    *ResponseError
 }
 
 // SetResponse sets the Response field on the ResponseCollector
@@ -46,7 +46,7 @@ func (rc *ResponseCollector) SetError(err *ResponseError) {
 func panicHandler(response *ResponseCollector) {
 	if err := recover(); err != nil {
 		respErr := ResponseError{
-			Name: "SEVERE_FAILURE",
+			Name:        "SEVERE_FAILURE",
 			Description: fmt.Sprintf("%s", err),
 		}
 		response.SetError(&respErr)

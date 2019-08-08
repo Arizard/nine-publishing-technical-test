@@ -5,13 +5,13 @@ import (
 	"github.com/arizard/nine-publishing-technical-test/entities"
 )
 
-// InMemoryArticleRepository implements a concrete repository model which 
+// InMemoryArticleRepository implements a concrete repository model which
 // stores data in memory.
 type InMemoryArticleRepository struct {
 	articles map[string]entities.Article
 }
 
-// NewInMemoryArticleRepository initializes a new concrete ArticleRepository 
+// NewInMemoryArticleRepository initializes a new concrete ArticleRepository
 // which stores articles in memory.
 func NewInMemoryArticleRepository() InMemoryArticleRepository {
 	return InMemoryArticleRepository{
@@ -28,7 +28,7 @@ func (s InMemoryArticleRepository) Add(article entities.Article) error {
 		return err
 	}
 
-	s.articles[id] = article	
+	s.articles[id] = article
 
 	return nil
 }

@@ -1,9 +1,9 @@
 package usecases
 
 import (
+	"fmt"
 	"github.com/arizard/nine-publishing-technical-test/infrastructure"
 	"github.com/icrowley/fake"
-	"fmt"
 	"testing"
 
 	"github.com/arizard/nine-publishing-technical-test/entities"
@@ -23,20 +23,20 @@ func TestGetArticle_Execute(t *testing.T) {
 
 	for index := 0; index < 25; index++ {
 		tempField := struct {
-				name   string
-				fields fields
-			}{
+			name   string
+			fields fields
+		}{
 			name: fmt.Sprintf("faked input %d", index),
 			fields: fields{
 				infrastructure.NewInMemoryArticleRepository(),
 				map[string]interface{}{
-					"id": string(index),
+					"id":    string(index),
 					"title": fake.Paragraph(),
-					"date" : fmt.Sprintf("%d-%02d-%02d", fake.Year(2005, 2019), fake.MonthNum(), fake.Day()),
-					"body" : fake.Paragraphs(),
-					"tags" : []interface{}{
-						fake.Word(), 
-						fake.Word(), 
+					"date":  fmt.Sprintf("%d-%02d-%02d", fake.Year(2005, 2019), fake.MonthNum(), fake.Day()),
+					"body":  fake.Paragraphs(),
+					"tags": []interface{}{
+						fake.Word(),
+						fake.Word(),
 						fake.Word(),
 					},
 				},
@@ -55,7 +55,7 @@ func TestGetArticle_Execute(t *testing.T) {
 			}
 			uc.Execute()
 			if uc.Response.Error != nil {
-				
+
 				t.Error(
 					fmt.Sprintf("error occured in test: %s (%s)",
 						uc.Response.Error.Name,
@@ -66,8 +66,8 @@ func TestGetArticle_Execute(t *testing.T) {
 
 			uc2 := GetArticle{
 				ArticleRepository: tt.fields.ArticleRepository,
-				ArticleID: tt.fields.ArticleData["id"].(string),
-				Response: &(ResponseCollector{}),
+				ArticleID:         tt.fields.ArticleData["id"].(string),
+				Response:          &(ResponseCollector{}),
 			}
 			uc2.Execute()
 
@@ -87,7 +87,7 @@ func TestGetArticle_Execute(t *testing.T) {
 					fmt.Sprintf("error occured in test: mismatched ID returned"),
 				)
 			}
-			
+
 		})
 	}
 }

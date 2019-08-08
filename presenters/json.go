@@ -1,16 +1,16 @@
 package presenters
 
 import (
+	"encoding/json"
 	"github.com/arizard/nine-publishing-technical-test/entities"
 	"log"
-	"encoding/json"
 )
 
 // All the JSON presenter should do is take a struct as an argument, and then
 // output the correct JSON formatted string result.
 
 // JSONPresenter presents data in browser-renderable html.
-type JSONPresenter struct {}
+type JSONPresenter struct{}
 
 // Deserialize converts a string body to a mapping of string to string.
 func (JSONPresenter) Deserialize(body []byte) map[string]interface{} {
@@ -43,7 +43,6 @@ func (JSONPresenter) NotFound() string {
 func (JSONPresenter) BadRequest() string {
 	return "{ \"error\": \"Bad Request\" }"
 }
-
 
 // Forbidden presents the 403 output.
 func (JSONPresenter) Forbidden() string {
@@ -84,7 +83,7 @@ func (JSONPresenter) GetArticle(article entities.Article) string {
 // GetArticlesByTag is a presenter which renders the input arguments as a JSON
 // string.
 func (JSONPresenter) GetArticlesByTag(tagName string, articles []entities.Article) string {
-	
+
 	ids, relatedTags := []string{}, []string{}
 
 	tagSet := map[string]bool{}
@@ -103,9 +102,9 @@ func (JSONPresenter) GetArticlesByTag(tagName string, articles []entities.Articl
 	}
 
 	formatted := map[string]interface{}{
-		"tag": tagName,
-		"count": len(articles),
-		"articles": ids,
+		"tag":          tagName,
+		"count":        len(articles),
+		"articles":     ids,
 		"related_tags": relatedTags,
 	}
 
@@ -120,4 +119,3 @@ func (JSONPresenter) GetArticlesByTag(tagName string, articles []entities.Articl
 
 	return string(json)
 }
-

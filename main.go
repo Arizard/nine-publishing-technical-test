@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/arizard/nine-publishing-technical-test/presenters"
 	"github.com/arizard/nine-publishing-technical-test/handlers"
 	"github.com/arizard/nine-publishing-technical-test/infrastructure"
-	"net/http"
+	"github.com/arizard/nine-publishing-technical-test/presenters"
 	"github.com/gorilla/mux"
 	"log"
+	"net/http"
 )
 
 func main() {
@@ -17,8 +17,8 @@ func main() {
 	r := mux.NewRouter().StrictSlash(false)
 
 	JSONHandler := handlers.Handler{
-		ContentType: "application/json",
-		Presenter: jsonPresenter,
+		ContentType:       "application/json",
+		Presenter:         jsonPresenter,
 		ArticleRepository: infrastructure.NewInMemoryArticleRepository(),
 	}
 
@@ -31,6 +31,5 @@ func main() {
 	log.Printf("starting server")
 
 	http.ListenAndServe(":8080", r)
-
 
 }
