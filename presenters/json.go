@@ -102,10 +102,19 @@ func (JSONPresenter) GetArticlesByTag(tagName string, articles []entities.Articl
 		}
 	}
 
+
+	var limitedIDs []string 
+	
+	limitedIDs = ids
+
+	if len(ids) >= 10 {
+		limitedIDs = ids[:10]
+	}
+
 	formatted := map[string]interface{}{
 		"tag":          tagName,
 		"count":        len(articles),
-		"articles":     ids[:10],
+		"articles":     limitedIDs,
 		"related_tags": relatedTags,
 	}
 
